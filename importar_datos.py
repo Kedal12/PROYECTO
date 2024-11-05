@@ -5,7 +5,7 @@ from estudiante_diseno import EstudianteDiseno
 
 def importar_datos(archivo_texto, inventario_portatil, inventario_tableta, vector_ingenieros, vector_disenadores):
     try:
-        # creamos una verificacion para que no se dupliquen ingenenieros ni deiseñadores
+        # creamos una verificacion para que no se dupliquen ingenenieros ni diseñadores
         cedulas_ingenieros_existentes = {estudiante.cedula for estudiante in vector_ingenieros}
         cedulas_disenadores_existentes = {estudiante.cedula for estudiante in vector_disenadores}
 
