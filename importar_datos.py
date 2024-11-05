@@ -5,9 +5,9 @@ from estudiante_diseno import EstudianteDiseno
 
 def importar_datos(archivo_texto, inventario_portatil, inventario_tableta, vector_ingenieros, vector_disenadores):
     try:
-        # creamos una verificacion para que no se dupliquen ingenenieros ni diseñadores
-        cedulas_ingenieros_existentes = {estudiante.cedula for estudiante in vector_ingenieros}
-        cedulas_disenadores_existentes = {estudiante.cedula for estudiante in vector_disenadores}
+        # Crear conjuntos de identificadores únicos existentes como cadenas
+        cedulas_ingenieros_existentes = {str(estudiante.cedula) for estudiante in vector_ingenieros}
+        cedulas_disenadores_existentes = {str(estudiante.cedula) for estudiante in vector_disenadores}
 
         with open(archivo_texto, 'r') as file:
             for line in file:
@@ -32,21 +32,27 @@ def importar_datos(archivo_texto, inventario_portatil, inventario_tableta, vecto
 
                 elif tipo == 'ingeniero':
                     cedula, nombre, apellido, telefono, semestre, promedio, serial = datos[1:]
+                    cedula = str(cedula)  # Asegurarse de que la cédula sea una cadena
                     if cedula in cedulas_ingenieros_existentes:
                         print(f"El ingeniero con cédula {cedula} ya existe. No se añadirá.")
                         continue
+                    print(f"Antes de añadir: {[(eng.cedula, eng.nombre) for eng in vector_ingenieros]}")
                     estudiante = EstudianteIngenieria(cedula, nombre, apellido, int(telefono), int(semestre), float(promedio), serial)
                     vector_ingenieros.append(estudiante)
                     cedulas_ingenieros_existentes.add(cedula)
+                    print(f"Después de añadir: {[(eng.cedula, eng.nombre) for eng in vector_ingenieros]}")
 
                 elif tipo == 'disenador':
                     cedula, nombre, apellido, telefono, modalidad, asignaturas, serial = datos[1:]
+                    cedula = str(cedula)  # Asegurarse de que la cédula sea una cadena
                     if cedula in cedulas_disenadores_existentes:
                         print(f"El diseñador con cédula {cedula} ya existe. No se añadirá.")
                         continue
+                    print(f"Antes de añadir: {[(des.cedula, des.nombre) for des in vector_disenadores]}")
                     estudiante = EstudianteDiseno(cedula, nombre, apellido, int(telefono), modalidad, int(asignaturas), serial)
                     vector_disenadores.append(estudiante)
                     cedulas_disenadores_existentes.add(cedula)
+                    print(f"Después de añadir: {[(des.cedula, des.nombre) for des in vector_disenadores]}")
 
     except FileNotFoundError:
         print(f"El archivo '{archivo_texto}' no se encontró.")
@@ -58,6 +64,4 @@ def importar_datos(archivo_texto, inventario_portatil, inventario_tableta, vecto
     print(f"Total tabletas: {len(inventario_tableta)}")
     print(f"Total ingenieros: {len(vector_ingenieros)}")
     print(f"Total diseñadores: {len(vector_disenadores)}")
-
-
 
